@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gestor de Pai</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar">
+    <div class="brand"><span>👨‍👦</span><div><b>Gestor de Pai</b><small>Organização pessoal e familiar</small></div></div>
+    <nav>
+      <button class="nav-btn active" data-page="dashboard">🏠 Dashboard</button>
+      <button class="nav-btn" data-page="agenda">📅 Agenda</button>
+      <button class="nav-btn" data-page="bebe">👶 Bebê</button>
+      <button class="nav-btn" data-page="pessoal">👤 Pessoal</button>
+      <button class="nav-btn" data-page="casa">🏠 Casa</button>
+      <button class="nav-btn" data-page="trabalho">💼 Trabalho</button>
+      <button class="nav-btn" data-page="financeiro">💰 Financeiro</button>
+    </nav>
+    <div class="storage-note">💾 Dados salvos neste navegador</div>
+  </aside>
+
+  <main class="main">
+    <header class="topbar">
+      <div>
+        <h1 id="pageTitle">Dashboard</h1>
+        <p id="todayLabel"></p>
+      </div>
+      <button class="primary" id="globalAdd">+ Adicionar</button>
+    </header>
+
+    <section id="dashboard" class="page active">
+      <div class="stats">
+        <div class="stat"><span>📅 Hoje</span><b id="statToday">0</b><small>compromissos</small></div>
+        <div class="stat"><span>⏳ Pendentes</span><b id="statPending">0</b><small>tarefas</small></div>
+        <div class="stat"><span>👶 Bebê</span><b id="babyAge">—</b><small id="babyNameDash">cadastre o bebê</small></div>
+        <div class="stat"><span>🎯 Estratégias</span><b id="statStrategies">0</b><small>em andamento</small></div>
+      </div>
+
+      <div class="grid two">
+        <div class="panel">
+          <div class="panel-head"><h2>📅 Agenda de hoje</h2><button class="link-btn" data-go="agenda">Ver agenda</button></div>
+          <div id="todayList"></div>
+        </div>
+        <div class="panel">
+          <div class="panel-head"><h2>🔔 Próximos compromissos</h2></div>
+          <div id="nextList"></div>
+        </div>
+      </div>
+
+      <div class="grid two">
+        <div class="panel">
+          <div class="panel-head"><h2>🍼 Leite</h2><button class="link-btn" data-go="bebe">Abrir</button></div>
+          <div class="mini-metric"><b id="dashMilk">0</b><span id="dashMilkUnit">ml disponíveis</span></div>
+          <div class="progress"><i id="dashMilkBar"></i></div>
+          <small id="dashMilkForecast">Cadastre o estoque inicial.</small>
+        </div>
+        <div class="panel">
+          <div class="panel-head"><h2>🧷 Fraldas</h2><button class="link-btn" data-go="bebe">Abrir</button></div>
+          <div class="mini-metric"><b id="dashDiapers">0</b><span>unidades</span></div>
+          <div class="progress"><i id="dashDiaperBar"></i></div>
+          <small id="dashDiaperForecast">Cadastre o estoque inicial.</small>
+        </div>
+      </div>
+    </section>
+
+    <section id="agenda" class="page">
+      <div class="toolbar">
+        <div><label>Data</label><input type="date" id="agendaDate"></div>
+        <div><label>Categoria</label><select id="agendaCategory"><option value="all">Todas</option><option>Filho</option><option>Pessoal</option><option>Casa</option><option>Trabalho</option><option>Financeiro</option></select></div>
+        <button class="primary" id="addAppointment">+ Compromisso</button>
+      </div>
+      <div class="panel"><div class="panel-head"><h2>Meus compromissos</h2><span id="agendaCount" class="badge">0</span></div><div id="agendaList"></div></div>
+    </section>
+
+    <section id="bebe" class="page">
+      <div class="grid two">
+        <div class="panel">
+          <div class="panel-head"><h2>👶 Dados do bebê</h2><button class="secondary" id="editBaby">Editar</button></div>
+          <div id="babyInfo" class="baby-info"></div>
+        </div>
+        <div class="panel">
+          <div class="panel-head"><h2>🔄 Rotina do bebê</h2><button class="secondary" id="addBabyRoutine">+ Rotina</button></div>
+          <div id="babyRoutines"></div>
+        </div>
+      </div>
+
+      <div class="grid two">
+        <div class="panel">
+          <div class="panel-head"><h2>🍼 Monitoramento do leite</h2><button class="secondary" id="addMilk">+ Registrar</button></div>
+          <div class="inventory">
+            <div><span>Estoque atual</span><b id="milkCurrent">0 ml</b></div>
+            <div><span>Média diária</span><b id="milkAverage">0 ml</b></div>
+            <div><span>Previsão</span><b id="milkForecast">—</b></div>
+          </div>
+          <div class="chart-wrap"><canvas id="milkChart"></canvas></div>
+          <div id="milkHistory"></div>
+        </div>
+        <div class="panel">
+          <div class="panel-head"><h2>🧷 Monitoramento de fraldas</h2><button class="secondary" id="addDiaper">+ Registrar</button></div>
+          <div class="inventory">
+            <div><span>Estoque atual</span><b id="diaperCurrent">0</b></div>
+            <div><span>Média diária</span><b id="diaperAverage">0</b></div>
+            <div><span>Previsão</span><b id="diaperForecast">—</b></div>
+          </div>
+          <div class="chart-wrap"><canvas id="diaperChart"></canvas></div>
+          <div id="diaperHistory"></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="pessoal" class="page">
+      <div class="tabs">
+        <button class="tab active" data-tab="personalAppointments">📅 Compromissos</button>
+        <button class="tab" data-tab="routines">🔄 Rotinas</button>
+        <button class="tab" data-tab="studies">📚 Estudos</button>
+        <button class="tab" data-tab="companies">💼 Empresas</button>
+        <button class="tab" data-tab="strategies">🧠 Estratégias</button>
+        <button class="tab" data-tab="health">🩺 Médicos</button>
+      </div>
+
+      <div id="personalAppointments" class="personal-tab active">
+        <div class="panel"><div class="panel-head"><h2>Meus compromissos pessoais</h2><button class="primary" id="addPersonal">+ Adicionar</button></div><div id="personalList"></div></div>
+      </div>
+      <div id="routines" class="personal-tab">
+        <div class="panel"><div class="panel-head"><h2>🔄 Rotinas pessoais</h2><button class="primary" id="addRoutine">+ Rotina</button></div><div id="routineList"></div></div>
+      </div>
+      <div id="studies" class="personal-tab">
+        <div class="panel"><div class="panel-head"><h2>📚 Estudos</h2><button class="primary" id="addStudy">+ Estudo</button></div><div id="studyList"></div></div>
+      </div>
+      <div id="companies" class="personal-tab">
+        <div class="panel"><div class="panel-head"><h2>💼 Procurar empresas</h2><button class="primary" id="addCompany">+ Empresa/vaga</button></div><div id="companyList"></div></div>
+      </div>
+      <div id="strategies" class="personal-tab">
+        <div class="panel"><div class="panel-head"><h2>🧠 Criar estratégias</h2><button class="primary" id="addStrategy">+ Estratégia</button></div><div id="strategyList"></div></div>
+      </div>
+      <div id="health" class="personal-tab">
+        <div class="panel"><div class="panel-head"><h2>🩺 Médicos e saúde</h2><button class="primary" id="addHealth">+ Consulta</button></div><div id="healthList"></div></div>
+      </div>
+    </section>
+
+    <section id="casa" class="page">
+      <div class="panel"><div class="panel-head"><h2>🏠 Tarefas da casa</h2><button class="primary" id="addHouse">+ Tarefa</button></div><div id="houseList"></div></div>
+    </section>
+
+    <section id="trabalho" class="page">
+      <div class="panel"><div class="panel-head"><h2>💼 Trabalho</h2><button class="primary" id="addWork">+ Tarefa</button></div><div id="workList"></div></div>
+    </section>
+
+    <section id="financeiro" class="page">
+      <div class="panel"><div class="panel-head"><h2>💰 Financeiro</h2><button class="primary" id="addFinance">+ Conta</button></div><div id="financeList"></div></div>
+    </section>
+  </main>
+</div>
+
+<div id="modal" class="modal"><div class="modal-box"><div class="modal-head"><h2 id="modalTitle">Adicionar</h2><button class="close" id="closeModal">×</button></div><div id="modalBody"></div></div></div>
+<script src="script.js"></script>
+</body>
+</html>
